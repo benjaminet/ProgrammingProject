@@ -12,17 +12,18 @@ submit.onclick = function(){
 // 
 */
 
+/*
 function forgotPassword()
 {
 window.location = "newPassword.html";               //window.location: new location for the window. Redirected to "newPassword.html" which is another interface
 }
 
-function submitEmail()
+function submitEmail()                              // function for the newPassword site
 {
     alert("A new password has been sent to your email.");
 }
 
-function login()
+function login()                                    //function for the login 
 {
     var uname = document.getElementById("email").value;         //referring to the email-id from the html file.
     var pwd = document.getElementById("pwd1").value;            // referring to the password-id from the html file. 
@@ -54,3 +55,5 @@ alert('You are logged in and will be redirected to our main page');
    window.location = "mainPage.html";
         }
 }		
+
+*/
