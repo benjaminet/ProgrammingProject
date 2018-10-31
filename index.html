@@ -94,20 +94,23 @@ body {
 <form>
 <div class="topnav">
     <input type="text" placeholder="Search...">
+    <a class="active" href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
  </div>
 
     <div class="row">
         <div class="col-12 col-md">
-        <input type="text" class='form-control' name='name' placeholder='Your name please'></div>
-      
-        <div class="col-12 col-md">
-        <input type="email" class="form-control" name='email' placeholder="Your email"></div>
-      
-        <div class="col-12 col-md">
         <input type="date" class="form-control" name='arrival_date' placeholder="Check in date"></div>
+        
+        <div class="col-12 col-md">
+        <input type="number" class="form-control" name='no_of_guests' placeholder="Guests"></div>
+
+        <div class="col-12 col-md">
+        <input type="text" class='form-control' name='rental_type' placeholder='Rental Type'></div>
       
         <div class="col-12 col-md">
-        <input type="number" class="form-control" name='no_of_days' placeholder="Number of days"></div>
+        <input type="email" class="form-control" name='price' placeholder="Price"></div>
       
         <div class="col-12 col-md">
         <button type="button" class='btn btn-primary' onclick='submitForm();'>Submit</button></div>
