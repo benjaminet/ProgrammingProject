@@ -39,6 +39,8 @@
                 .selected {
                     outline: 1px solid red;
 }
+
+/* DROPDOWN - DESTINATIONS */
  /* Dropdown Button */
  .dropbtnDestinations {
     background-color: #3498DB;
@@ -83,6 +85,9 @@
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;} 
+
+
+/* DROPDOWN - RENTALS */
 
 /* Dropdown Button */
 .dropbtnRentals {
@@ -189,19 +194,21 @@ Instead of using a border, we have used the box-shadow property to make the drop
     </div>
 </div>
 
-<div class="dropdownDestinations">
-        <button onclick="dropDownDestinations()" class="dropbtnDestinations">Destinations</button>
-        <div id="myDropdownDestinations" class="dropdownDestinations-content">
-          <a href="#">Australia</a>
-          <a href="#">Dubai</a>
-          <a href="#">Greece</a>
-          <a href="#">France</a>
-          <a href="#">Netherlands</a>
-          <a href="#">United Kingdom</a>
-          <a href="#">United States</a>
-          <a href="#">Spain</a>
-          <a href="#">Thailand</a>
 
+
+<div class="dropdownDestinations">
+ <button onclick="dropDownDestinations()" class="dropbtnDestinations">Destinations</button>
+        <div id="myDropdownDestinations" class="dropdownDestinations-content" onChange="dropDownDestinations()">
+          <a href="australia.html">Australia</a>
+          <a href="dubai.html">Dubai</a>
+          <a href="greece.html">Greece</a>
+          <a href="france.html">France</a>
+          <a href="5">Netherlands</a>
+          <a href="6">United Kingdom</a>
+          <a href="7">United States</a>
+          <a href="8">Spain</a>
+          <a href="9">Thailand</a>
+        
         </div>
       </div> 
 
@@ -215,34 +222,41 @@ Instead of using a border, we have used the box-shadow property to make the drop
 -->
 
 
-
 <div class="dropdownRentals">
         <button onclick="dropDownRentals()" class="dropbtnRentals">Rental types</button>
         <div id="myDropdownRentals" class="dropdownRentals-content">
-          <a href="#">Apartments</a>
-          <a href="#">Castles</a>
-          <a href="#">Houseboats</a>
-          <a href="#">Villas</a>
+          <a href="apartments.html">Apartments</a>
+          <a href="castles.html">Castles</a>
+          <a href="houseboats.html">Houseboats</a>
+          <a href="villas.html">Villas</a>
          
-
         </div>
       </div> 
       
-        <div class="col-12 col-md">
-        <input type="email" class="form-control" name='email' placeholder="Your email"></div>
       
-        <div class="col-12 col-md">
-        <input type="date" class="form-control" name='arrival_date' placeholder="Check in date"></div>
+      <form method="POST" action="https://formspree.io/drlau@thelead.io">
+        <div class="row">
+
+    
       
-        <div class="col-12 col-md">
-        <input type="number" class="form-control" name='no_of_days' placeholder="Number of days"></div>
-      
-        <div class="col-12 col-md">
-        <button type="button" class='btn btn-primary' onclick='submitForm();'>Submit</button></div>
-       
-    <input type="hidden" name='selected_item'>
- </div>
-</form>
+            <div class="col-12 col-md">
+                <input type="date" class="form-control" name='arrival_date' placeholder="Check in date"></div>
+                
+                <div class="col-12 col-md">
+                <input type="date" class="form-control" name='departure_date' placeholder="Checkout date"></div>
+        
+                <div class="col-12 col-md">
+                <input type="number" class="form-control" name='no_of_guests' placeholder="Guests"></div>
+              
+                <div class="col-12 col-md">
+                <input type="number" class="form-control" name='price' placeholder="Price"></div>
+              
+                <div class="col-12 col-md">
+                <button type="button" class='btn btn-primary' onclick='submitForm();'>Submit</button></div>
+               
+            <input type="hidden" name='selected_item'>
+         </div>
+        </form>
 
 <hr />
 
@@ -323,13 +337,58 @@ Instead of using a border, we have used the box-shadow property to make the drop
 </div>
 
 </div>
+<script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
+<script>
+
+
+var config = {
+      apiKey: "AIzaSyASmriziDuai4aMaqsg6Hnqie9GB_9VUSI",
+      authDomain: "airbnb2-af942.firebaseapp.com",
+      databaseURL: "https://airbnb2-af942.firebaseio.com",
+      projectId: "airbnb2-af942",
+      storageBucket: "airbnb2-af942.appspot.com",
+      messagingSenderId: "16787524668"
+    };
+    firebase.initializeApp(config);
+    var db = firebase.firestore();
+    db.settings({
+      timestampsInSnapshots: true
+    });
+    function submitForm() {
+      var arrival_date = $("input[name='arrival_date']").val();
+      var departure_date = $("input[name='departure_date']").val();
+      var no_of_guests = $("input[name='no_of_guests']").val();
+      var price = $("input[name='price']").val();
+      var selected_item = $("input[name='selected_item']").val()
+      db.collection('bookings').add({ arrival_date, departure_date, no_of_guests, rental_type, price, selected_item })
+        .then(function (docRef) {
+          alert("Booking submitted successfully");
+        })
+        .catch(function (error) {
+          alert("Error submitting booking");
+          console.error("Error: ", error);
+        });
+    }
+</script>
+
 
 <script>
+      $('.item').click(function () {
+        $('.item').removeClass('selected'); 
+        $(this).addClass('selected');
+        var selected_item = $(this).find('.title').text();
+        $("input[name='selected_item']").val(selected_item)
+      })
+
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function dropDownDestinations() {
     document.getElementById("myDropdownDestinations").classList.toggle("show");
+
+    if(document.getElementById('myDropdownDestinations'.value == "3")){
+        window.location="Dubai.html";
+    }
 }
 
 // Close the dropdown menu if the user clicks outside of it
@@ -349,6 +408,8 @@ window.onclick = function(event) {
 
 function dropDownRentals() {
     document.getElementById("myDropdownRentals").classList.toggle("show");
+
+   // if(document.getElementById())
 }
 
 window.onclick = function(event) {
