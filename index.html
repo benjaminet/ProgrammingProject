@@ -99,10 +99,15 @@ body {
     <a href="#contact">Contact</a>
  </div>
 
+ <form method="POST" action="https://formspree.io/drlau@thelead.io">
     <div class="row">
+
         <div class="col-12 col-md">
         <input type="date" class="form-control" name='arrival_date' placeholder="Check in date"></div>
         
+        <div class="col-12 col-md">
+        <input type="date" class="form-control" name='departure_date' placeholder="Checkout date"></div>
+
         <div class="col-12 col-md">
         <input type="number" class="form-control" name='no_of_guests' placeholder="Guests"></div>
 
@@ -110,7 +115,7 @@ body {
         <input type="text" class='form-control' name='rental_type' placeholder='Rental Type'></div>
       
         <div class="col-12 col-md">
-        <input type="email" class="form-control" name='price' placeholder="Price"></div>
+        <input type="number" class="form-control" name='price' placeholder="Price"></div>
       
         <div class="col-12 col-md">
         <button type="button" class='btn btn-primary' onclick='submitForm();'>Submit</button></div>
@@ -198,8 +203,51 @@ body {
 </div>
 
 </div>
-script
+<script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
+<script>
+        var config = {
+      apiKey: "AIzaSyASmriziDuai4aMaqsg6Hnqie9GB_9VUSI",
+      authDomain: "airbnb2-af942.firebaseapp.com",
+      databaseURL: "https://airbnb2-af942.firebaseio.com",
+      projectId: "airbnb2-af942",
+      storageBucket: "airbnb2-af942.appspot.com",
+      messagingSenderId: "16787524668"
+    };
+    firebase.initializeApp(config);
 
+    var db = firebase.firestore();
+    db.settings({
+      timestampsInSnapshots: true
+    });
+
+    function submitForm() {
+      var arrival_date = $("input[name='arrival_date']").val();
+      var departure_date = $("input[name='departure_date']").val();
+      var no_of_guests = $("input[name='no_of_guests']").val();
+      var rental_type = $("input[name='rental_type']").val();
+      var price = $("input[name='price']").val();
+      var selected_item = $("input[name='selected_item']").val()
+
+      db.collection('bookings').add({ arrival_date, departure_date, no_of_guests, rental_type, price, selected_item })
+        .then(function (docRef) {
+          alert("Booking submitted successfully");
+        })
+        .catch(function (error) {
+          alert("Error submitting booking");
+          console.error("Error: ", error);
+        });
+    }
+</script>
+
+
+<script>
+      $('.item').click(function () {
+        $('.item').removeClass('selected'); 
+        $(this).addClass('selected');
+        var selected_item = $(this).find('.title').text();
+        $("input[name='selected_item']").val(selected_item)
+      })
+</script>
     </body>
 
 
