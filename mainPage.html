@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-   
-<head>
-        <meta charset="UTF-8">
-        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <title> Luxotic Accomodation</title>
 
-        <style>
-                body {
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <title> Luxotic Accomodation</title>
+
+    <style>
+        body {
                     color: rgb(72,72,72);
                 }
                 .item img {
@@ -162,288 +162,150 @@ Instead of using a border, we have used the box-shadow property to make the drop
 <body>
     <div class="container-fluid px-4">
         <div class="row">
-        <div class="col">
-        <h1>Explore the World in Style</h1>
-        <h3>Popular Destinations</h3>
-        <p>Experience Local Communities Lavishly</p>
-    </div>
-</div>
-
-
-
-<div class="dropdownDestinations">
- <button onclick="dropDownDestinations()" class="dropbtnDestinations">Destinations</button>
-        <div id="myDropdownDestinations" class="dropdownDestinations-content" onChange="dropDownDestinations()">
-          <a href="australia.html">Australia</a>
-          <a href="dubai.html">Dubai</a>
-          <a href="greece.html">Greece</a>
-          <a href="france.html">France</a>
-          <a href="5">Netherlands</a>
-          <a href="6">United Kingdom</a>
-          <a href="7">United States</a>
-          <a href="8">Spain</a>
-          <a href="9">Thailand</a>
-        
+            <div class="col">
+                <h1>Explore the World in Style</h1>
+                <h3>Popular Destinations</h3>
+                <p>Experience Local Communities Lavishly</p>
+            </div>
         </div>
-      </div> 
 
-<!--
-<div class="topnav">
-        <input type="text" placeholder="Search...">
-        <a class="active" href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-    </div>
--->
-
-
-<div class="dropdownRentals">
-        <button onclick="dropDownRentals()" class="dropbtnRentals">Rental types</button>
-        <div id="myDropdownRentals" class="dropdownRentals-content">
-          <a href="apartments.html">Apartments</a>
-          <a href="castles.html">Castles</a>
-          <a href="houseboats.html">Houseboats</a>
-          <a href="villas.html">Villas</a>
-         
-        </div>
-      </div> 
-      
-      
-      <form method="POST" action="https://formspree.io/drlau@thelead.io">
         <div class="row">
 
-    
-      
-            <div class="col-12 col-md">
-                <input type="date" class="form-control" name='arrival_date' placeholder="Check in date"></div>
-                
-                <div class="col-12 col-md">
-                <input type="date" class="form-control" name='departure_date' placeholder="Checkout date"></div>
-        
-                <div class="col-12 col-md">
-                <input type="number" class="form-control" name='no_of_guests' placeholder="Guests"></div>
-              
-                <div class="col-12 col-md">
-                <input type="number" class="form-control" name='price' placeholder="Price"></div>
-              
-         <div class="col-12 col-md">
-                <select name="Rental" class='form-control' name='rental_type' placeholder='Rental Type' value="">
-                <option value="-1" selected>Choose Rental</option>
-                <option value="1">Appartment</option>
-                <option value="2">Castle</option>
-                <option value="3">Houseboat</option>
-                <option value="4">Villa</option>
-                </select>
+            <!-- DESTINATION DROP DOWN -->
+            <select id="destinationDdl" class="form-control col-md-2" onchange="filterChanged()"> <!-- When item is selected "filterChanged" is called -->
+                <option selected value="Default">- Select Country -</option>
+                <option value="Australia">Australia</option>
+                <option value="Dubai">Dubai</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="France">France</option>
+            </select>
+
+            <!-- RENTAL TYPE DROP DOWN -->
+            <select id="rentalTypesDdl" class="form-control col-md-2 offset-md-1" onchange="filterChanged()"> <!-- When item is selected "filterChanged" is called -->
+                <option selected value="Default">- Select Type -</option>
+                <option value="Apartment">Apartments</option>
+                <option value="Castle">Castles</option>
+                <option value="Houseboat">Houseboats</option>
+                <option value="Villa">Villas</option>
+            </select>
         </div>
+
+
+        <form method="POST" action="https://formspree.io/drlau@thelead.io">
+            <div class="row">
                 <div class="col-12 col-md">
-                <button type="button" class='btn btn-primary' onclick='submitForm();'>Submit</button></div>
-               
-            <input type="hidden" name='selected_item'>
-         </div>
+                    <input type="date" class="form-control" name='arrival_date' placeholder="Check in date"></div>
+
+                <div class="col-12 col-md">
+                    <input type="date" class="form-control" name='departure_date' placeholder="Checkout date"></div>
+
+                <div class="col-12 col-md">
+                    <input type="number" class="form-control" name='no_of_guests' placeholder="Guests"></div>
+
+                <div class="col-12 col-md">
+                <input type="number" class="form-control" id="max-price-input" name='price' placeholder="Max Price" onkeyup="filterChanged()"></div>
+
+                <div class="col-12 col-md">
+                    <select name="Rental" class='form-control' name='rental_type' placeholder='Rental Type' value="">
+                        <option value="-1" selected>Choose Rental</option>
+                        <option value="1">Appartment</option>
+                        <option value="2">Castle</option>
+                        <option value="3">Houseboat</option>
+                        <option value="4">Villa</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md">
+                    <button type="button" class='btn btn-primary' onclick='submitForm();'>Submit</button></div>
+
+                <input type="hidden" name='selected_item'>
+            </div>
         </form>
 
-<hr />
+        <hr />
 
-<div class="row" id='accomodation'>
+        <div id="content" class="row">
+            
+        </div>
+<!-- 
+        <div class="row" id='accomodation'>
+            <div class="col item">
+                <img src='https://www.oliverstravels.com/uploads/herder_image/crop_9999_1000_Chateau-de-Ruffiac-Dordogne-Fr-Olivers-Travels-1.jpg' />
+                <p class='location'>Castle &bull; Carlux, France</p>
+                <p class='title'>Chateau De Ruffiac</p>
+                <p class='price'>£715 GBP per night</p>
+            </div>
 
-    <div class="col item">
-    <img src='https://www.oliverstravels.com/uploads/herder_image/crop_9999_1000_Chateau-de-Ruffiac-Dordogne-Fr-Olivers-Travels-1.jpg'/>
-    <p class='location'>Castle &bull; Carlux, France</p>
-    <p class='title'>Chateau De Ruffiac</p>
-    <p class='price'>£715 GBP per night</p>
-</div>
+            <div class="col item">
+                <img src='https://pictures.luxuryretreats.com/118224/Mykonos_Kymothoe_01.jpg' />
+                <p class='location'>Villa &bull; Mykonos, Greece</p>
+                <p class='title'>Kymothoe Villa</p>
+                <p class='price'>£1512 GBP per night</p>
+            </div>
 
-<div class="col item">
-    <img src='https://pictures.luxuryretreats.com/118224/Mykonos_Kymothoe_01.jpg'/>
-    <p class='location'>Villa &bull; Mykonos, Greece</p>
-    <p class='title'>Kymothoe Villa</p>
-    <p class='price'>£1512 GBP per night</p>
-</div>
+            <div class="col item">
+                <img src='https://pictures.luxuryretreats.com/119716/Ibiza_CanGoso_01.jpg' />
+                <p class='location'>Villa &bull; Ibiza, Spain</p>
+                <p class='title'>Can Goso Villa</p>
+                <p class='price'>£3850 GBP per night</p>
+            </div>
 
-<div class="col item">
-    <img src='https://pictures.luxuryretreats.com/119716/Ibiza_CanGoso_01.jpg'/>
-    <p class='location'>Villa &bull; Ibiza, Spain</p>
-    <p class='title'>Can Goso Villa</p>
-    <p class='price'>£3850 GBP per night</p>
-</div>
+            <div class="col item">
+                <img src='https://www.lakepowell.com/media/31708/axiom-star-yacht_exterior_5_1000x667.jpg' />
+                <p class='location'>Houseboat &bull; Arizona, United States</p>
+                <p class='title'>65-ft Axiom Star Houseboat</p>
+                <p class='price'>£530 GBP per night</p>
+            </div>
 
-<div class="col item">
-        <img src='https://www.lakepowell.com/media/31708/axiom-star-yacht_exterior_5_1000x667.jpg'/>
-        <p class='location'>Houseboat &bull; Arizona, United States</p>
-        <p class='title'>65-ft Axiom Star Houseboat</p>
-        <p class='price'>£530 GBP per night</p>
+            <div class="col item">
+                <img src='https://pictures.luxuryretreats.com/122702/Dubai_CityWalkPenthouse--_02.jpg' />
+                <p class='location'>Appartment &bull; Dubai, United Emirates</p>
+                <p class='title'>City Walk Penthouse Dubai</p>
+                <p class='price'>£945 GBP per night</p>
+            </div>
+        </div>
+
+        <div class="row" id='accomodation'>
+
+            <div class="col item">
+                <img src='https://pictures.luxuryretreats.com/108617/santorini_villalo_01.jpg' />
+                <p class='location'>Villa &bull; Santorini, Greece</p>
+                <p class='title'>Villa Io</p>
+                <p class='price'>£320 GBP per night</p>
+            </div>
+
+            <div class="col item">
+                <img src='https://pictures.luxuryretreats.com/122060/Sydney_SkyLoft-1.jpg' />
+                <p class='location'>Appartment &bull;Sydney, Australia</p>
+                <p class='title'>Sky Loft Penthouse</p>
+                <p class='price'>£657,68 GBP per night</p>
+            </div>
+
+            <div class="col item">
+                <img src='https://pictures.luxuryretreats.com/110255/thailand_goldenpalmvilla_25.jpg' />
+                <p class='location'>Villa &bull;Chaweng, Koh Samui, Thailand</p>
+                <p class='title'>Golden Palm Villa</p>
+                <p class='price'>£377,98 GBP per night</p>
+            </div>
+
+            <div class="col item">
+                <img src='https://cdn.bookabooking.com/upload/property_images/large/overlay/595_8159_photo.jpg' />
+                <p class='location'>Houseboat &bull;Amsterdam, Netherlands</p>
+                <p class='title'>De Zonnevanger Boathouse</p>
+                <p class='price'>£263,5 GBP per night</p>
+            </div>
+
+            <div class="col item">
+                <img src='https://pictures.luxuryretreats.com/120021/LosAngeles_AStepAbove_01.jpg' />
+                <p class='location'>Villa &bull;Malibu, California, United States</p>
+                <p class='title'>A Step Above Villa</p>
+                <p class='price'>£2970,15 GBP per night</p>
+            </div>
+        </div> -->
     </div>
 
-<div class="col item">
-        <img src='https://pictures.luxuryretreats.com/122702/Dubai_CityWalkPenthouse--_02.jpg'/>
-        <p class='location'>Appartment &bull; Dubai, United Emirates</p>
-        <p class='title'>City Walk Penthouse Dubai</p>
-        <p class='price'>£945 GBP per night</p>
-</div>
-</div>
-
-<div class="row" id='accomodation'>
-
-<div class="col item">
-        <img src='https://pictures.luxuryretreats.com/108617/santorini_villalo_01.jpg'/>
-        <p class='location'>Villa &bull; Santorini, Greece</p>
-        <p class='title'>Villa Io</p>
-        <p class='price'>£320 GBP per night</p>
-        </div>
-
- <div class="col item">
-        <img src='https://pictures.luxuryretreats.com/122060/Sydney_SkyLoft-1.jpg'/>
-        <p class='location'>Appartment &bull;Sydney, Australia</p>
-        <p class='title'>Sky Loft Penthouse</p>
-        <p class='price'>£657,68 GBP per night</p>
- </div>
-
- <div class="col item">
-        <img src='https://pictures.luxuryretreats.com/110255/thailand_goldenpalmvilla_25.jpg'/>
-        <p class='location'>Villa &bull;Chaweng, Koh Samui, Thailand</p>
-        <p class='title'>Golden Palm Villa</p>
-        <p class='price'>£377,98 GBP per night</p>
-</div>
-        
-<div class="col item">
-        <img src='https://cdn.bookabooking.com/upload/property_images/large/overlay/595_8159_photo.jpg'/>
-        <p class='location'>Houseboat &bull;Amsterdam, Netherlands</p>
-        <p class='title'>De Zonnevanger Boathouse</p>
-        <p class='price'>£263,5 GBP per night</p>
-        </div>
-
-<div class="col item">
-        <img src='https://pictures.luxuryretreats.com/120021/LosAngeles_AStepAbove_01.jpg'/>
-        <p class='location'>Villa &bull;Malibu, California, United States</p>
-        <p class='title'>A Step Above Villa</p>
-        <p class='price'>£2970,15 GBP per night</p>
-</div>    
-</div>
-
-</div>
-<script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
-<script>
-var config = {
-      apiKey: "AIzaSyASmriziDuai4aMaqsg6Hnqie9GB_9VUSI",
-      authDomain: "airbnb2-af942.firebaseapp.com",
-      databaseURL: "https://airbnb2-af942.firebaseio.com",
-      projectId: "airbnb2-af942",
-      storageBucket: "airbnb2-af942.appspot.com",
-      messagingSenderId: "16787524668"
-    };
-    firebase.initializeApp(config);
-    var db = firebase.firestore();
-    db.settings({
-      timestampsInSnapshots: true
-    });
-    function submitForm() {
-      var arrival_date = $("input[name='arrival_date']").val();
-      var departure_date = $("input[name='departure_date']").val();
-      var no_of_guests = $("input[name='no_of_guests']").val();
-      var price = $("input[name='price']").val();
-      var selected_item = $("input[name='selected_item']").val()
-      db.collection('bookings').add({ arrival_date, departure_date, no_of_guests, rental_type, price, selected_item })
-        .then(function (docRef) {
-          alert("Booking submitted successfully");
-        })
-        .catch(function (error) {
-          alert("Error submitting booking");
-          console.error("Error: ", error);
-        });
-    }
-</script>
+    <script src="main.js"></script>
 
 
-<script>
-      $('.item').click(function () {
-        $('.item').removeClass('selected'); 
-        $(this).addClass('selected');
-        var selected_item = $(this).find('.title').text();
-        $("input[name='selected_item']").val(selected_item)
-      })
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-function dropDownDestinations() {
-    document.getElementById("myDropdownDestinations").classList.toggle("show");
-    if(document.getElementById('myDropdownDestinations'.value == "3")){
-        window.location="Dubai.html";
-    }
-}
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtnDestinations')) {
-    var dropdownsDestinations = document.getElementsByClassName("dropdownDestinations-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-} 
-function dropDownRentals() {
-    document.getElementById("myDropdownRentals").classList.toggle("show");
-   // if(document.getElementById())
-}
-window.onclick = function(event) {
-        if(!event.target.matches('.dropbtnRentals')) {
-                var dropdownRentals = document.getElementsByClassName("dropdownRentals-content");
-                var i;
-                for (i = 0; i < dropdowns.lenght; i++) {
-                        var openDropdown = dropdowns[i];
-                        if (openDropdown.classList.contains('show')) {
-                                openDropdown.classList.remove('show');
-                } }
-        
-                }
-        }
-</script>
-<script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
-<script>
-    var config = {
-      apiKey: "AIzaSyASmriziDuai4aMaqsg6Hnqie9GB_9VUSI",
-      authDomain: "airbnb2-af942.firebaseapp.com",
-      databaseURL: "https://airbnb2-af942.firebaseio.com",
-      projectId: "airbnb2-af942",
-      storageBucket: "airbnb2-af942.appspot.com",
-      messagingSenderId: "16787524668"
-    };
-    firebase.initializeApp(config);
-
-    var db = firebase.firestore();
-    db.settings({
-      timestampsInSnapshots: true
-    });
-
-//Her skal der placeres  følgende under var så som submit form ,error etc.
-    function submitForm() {
-      var arrival_date = $("input[name='arrival_date']").val();
-      var departure_date = $("input[name='departure_date']").val();
-      var no_of_guests = $("input[name='no_of_guests']").val();
-      var rental_type = $("input[name='rental_type']").val();
-      var price = $("input[name='price']").val();
-      var selected_item = $("input[name='selected_item']").val()
-
-      db.collection('bookings').add({ arrival_date, departure_date, no_of_guests, rental_type, price, selected_item })
-        .then(function (docRef) {
-          alert("Booking submitted successfully");
-        })
-        .catch(function (error) {
-          alert("Error submitting booking");
-          console.error("Error: ", error);
-        });
-    }
-</script>
-
-<script>
-      $('.item').click(function () {
-        $('.item').removeClass('selected'); 
-        $(this).addClass('selected');
-        var selected_item = $(this).find('.title').text();
-        $("input[name='selected_item']").val(selected_item)
-      })
-</script>
 </body>
 
 </html>
