@@ -122,57 +122,30 @@ The .dropdown class uses position:relative, which is needed when we want the dro
 The .dropdown-content class holds the actual dropdown menu. It is hidden by default, and will be displayed on hover (see below). Note the min-width is set to 160px. Feel free to change this. Tip: If you want the width of the dropdown content to be as wide as the dropdown button, set the width to 100% (and overflow:auto to enable scroll on small screens).
 Instead of using a border, we have used the box-shadow property to make the dropdown menu look like a "card". We also use z-index to place the dropdown in front of other elements.
 */
-/*              FORMER CSS FOR AUTOCOMPLETE SEARCH --> NOT USED ANYMORE
-                    
-                }
-                .dropdown {
-                    overflow:hidden;
-                    background-color: #e9e9e9;
-                }
-                .dropdown a {
-                    float: left;
-                    display: block;
-                    color: black;
-                    text-align: center;
-                    padding: 14px 16px;
-                    text-decoration: none;
-                    font-size: 17px;
-                }
-                .dropdown a:hover {
-                    background-color:white;
-                    color: black;
-                }
-                .dropdown a.active {
-                    background-color: #2196F3;
-                    color: white;
-                }
-                .dropdown input[type=text] {
-                    float: left;
-                    padding: 6px;
-                    border: none;
-                    margin-top: 8px;
-                    margin-right: 16px;
-                    font-size: 17px;
-                }
-                */
+
 </style>
 
 </head>
 
 <body>
     <div class="container-fluid px-4">
-        <div class="row">
-            <div class="col">
+        <div class="row" id="lolrow">
+            <div class="col col-sm-6">
                 <h1>Explore the World in Style</h1>
                 <h3>Popular Destinations</h3>
                 <p>Experience Local Communities Lavishly</p>
+            </div>
+            <div class="col col-sm-6">
+                <ul class="list-group"  id="booking-list">
+                </ul>
             </div>
         </div>
 
         <div class="row">
 
             <!-- DESTINATION DROP DOWN -->
-            <select id="destinationDdl" class="form-control col-md-2" onchange="filterChanged()"> <!-- When item is selected "filterChanged" is called -->
+            <select id="destinationDdl" class="form-control col-md-2" onchange="filterChanged()">
+                <!-- When item is selected "filterChanged" is called -->
                 <option selected value="Default">- Select Country -</option>
                 <option value="Australia">Australia</option>
                 <option value="Dubai">Dubai</option>
@@ -181,7 +154,8 @@ Instead of using a border, we have used the box-shadow property to make the drop
             </select>
 
             <!-- RENTAL TYPE DROP DOWN -->
-            <select id="rentalTypesDdl" class="form-control col-md-2 offset-md-1" onchange="filterChanged()"> <!-- When item is selected "filterChanged" is called -->
+            <select id="rentalTypesDdl" class="form-control col-md-2 offset-md-1" onchange="filterChanged()">
+                <!-- When item is selected "filterChanged" is called -->
                 <option selected value="Default">- Select Type -</option>
                 <option value="Apartment">Apartments</option>
                 <option value="Castle">Castles</option>
@@ -200,22 +174,12 @@ Instead of using a border, we have used the box-shadow property to make the drop
                     <input type="date" class="form-control" name='departure_date' placeholder="Checkout date"></div>
 
                 <div class="col-12 col-md">
-                    <input type="number" class="form-control" name='no_of_guests' placeholder="Guests"></div>
+                    <input type="number" class="form-control" min="1" max="999" id="no_of_guests" name='guests' placeholder="Guests"
+                        oninput="filterChanged()"></div>
 
                 <div class="col-12 col-md">
-                <input type="number" class="form-control" id="max-price-input" name='price' placeholder="Max Price" onkeyup="filterChanged()"></div>
-
-                <div class="col-12 col-md">
-                    <select name="Rental" class='form-control' name='rental_type' placeholder='Rental Type' value="">
-                        <option value="-1" selected>Choose Rental</option>
-                        <option value="1">Appartment</option>
-                        <option value="2">Castle</option>
-                        <option value="3">Houseboat</option>
-                        <option value="4">Villa</option>
-                    </select>
-                </div>
-                <div class="col-12 col-md">
-                    <button type="button" class='btn btn-primary' onclick='submitForm();'>Submit</button></div>
+                    <input type="number" class="form-control" min="1" max="99999999" id="max-price-input" name='price' placeholder="Max Price"
+                        oninput="filterChanged()"></div>
 
                 <input type="hidden" name='selected_item'>
             </div>
@@ -224,85 +188,12 @@ Instead of using a border, we have used the box-shadow property to make the drop
         <hr />
 
         <div id="content" class="row">
-            
-        </div>
-<!-- 
-        <div class="row" id='accomodation'>
-            <div class="col item">
-                <img src='https://www.oliverstravels.com/uploads/herder_image/crop_9999_1000_Chateau-de-Ruffiac-Dordogne-Fr-Olivers-Travels-1.jpg' />
-                <p class='location'>Castle &bull; Carlux, France</p>
-                <p class='title'>Chateau De Ruffiac</p>
-                <p class='price'>£715 GBP per night</p>
-            </div>
 
-            <div class="col item">
-                <img src='https://pictures.luxuryretreats.com/118224/Mykonos_Kymothoe_01.jpg' />
-                <p class='location'>Villa &bull; Mykonos, Greece</p>
-                <p class='title'>Kymothoe Villa</p>
-                <p class='price'>£1512 GBP per night</p>
-            </div>
-
-            <div class="col item">
-                <img src='https://pictures.luxuryretreats.com/119716/Ibiza_CanGoso_01.jpg' />
-                <p class='location'>Villa &bull; Ibiza, Spain</p>
-                <p class='title'>Can Goso Villa</p>
-                <p class='price'>£3850 GBP per night</p>
-            </div>
-
-            <div class="col item">
-                <img src='https://www.lakepowell.com/media/31708/axiom-star-yacht_exterior_5_1000x667.jpg' />
-                <p class='location'>Houseboat &bull; Arizona, United States</p>
-                <p class='title'>65-ft Axiom Star Houseboat</p>
-                <p class='price'>£530 GBP per night</p>
-            </div>
-
-            <div class="col item">
-                <img src='https://pictures.luxuryretreats.com/122702/Dubai_CityWalkPenthouse--_02.jpg' />
-                <p class='location'>Appartment &bull; Dubai, United Emirates</p>
-                <p class='title'>City Walk Penthouse Dubai</p>
-                <p class='price'>£945 GBP per night</p>
-            </div>
         </div>
 
-        <div class="row" id='accomodation'>
-
-            <div class="col item">
-                <img src='https://pictures.luxuryretreats.com/108617/santorini_villalo_01.jpg' />
-                <p class='location'>Villa &bull; Santorini, Greece</p>
-                <p class='title'>Villa Io</p>
-                <p class='price'>£320 GBP per night</p>
-            </div>
-
-            <div class="col item">
-                <img src='https://pictures.luxuryretreats.com/122060/Sydney_SkyLoft-1.jpg' />
-                <p class='location'>Appartment &bull;Sydney, Australia</p>
-                <p class='title'>Sky Loft Penthouse</p>
-                <p class='price'>£657,68 GBP per night</p>
-            </div>
-
-            <div class="col item">
-                <img src='https://pictures.luxuryretreats.com/110255/thailand_goldenpalmvilla_25.jpg' />
-                <p class='location'>Villa &bull;Chaweng, Koh Samui, Thailand</p>
-                <p class='title'>Golden Palm Villa</p>
-                <p class='price'>£377,98 GBP per night</p>
-            </div>
-
-            <div class="col item">
-                <img src='https://cdn.bookabooking.com/upload/property_images/large/overlay/595_8159_photo.jpg' />
-                <p class='location'>Houseboat &bull;Amsterdam, Netherlands</p>
-                <p class='title'>De Zonnevanger Boathouse</p>
-                <p class='price'>£263,5 GBP per night</p>
-            </div>
-
-            <div class="col item">
-                <img src='https://pictures.luxuryretreats.com/120021/LosAngeles_AStepAbove_01.jpg' />
-                <p class='location'>Villa &bull;Malibu, California, United States</p>
-                <p class='title'>A Step Above Villa</p>
-                <p class='price'>£2970,15 GBP per night</p>
-            </div>
-        </div> -->
     </div>
 
+    <script src="user.js"> </script>
     <script src="main.js"></script>
 
 

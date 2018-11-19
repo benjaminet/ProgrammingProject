@@ -4,31 +4,22 @@ To do:
 
 Programming: 
 
-1. implement filters 
 
-2. understand what simon showed regarding getting detailed view of a single renatl
+Put dates in to the singel rental, not as filter
 
-- PUT ALL ATTRIBUTES FROM UML IN TO RENTAL CLASS
-
-3. Put dates in to the singel rental, not as filter
-
-4 fix the register page
+fix the register page
 . 
+
+login/register: able to login with registered name? (localstorage?)
 
 IMPLEMENT DATES TO SELECT ON SINGLE RENTAL 
 
-Er UML korrekt?
-Skal man kunne se sin booking ift UML? 
-
-Hvordan linker man videre til en valgt rental?
+BEING ABLE TO BOOK A RENTAL AND VIEW THE BOOKING. (LocalStorage)
 
 */
 
-
-
-
 // Rental class (with attributes)
-function Rental(country, city, type, title, price, guests, imageUrl, rooms, smoking, hasWifi, hasLaundry, hasTV, hasAircon){ //put all attributes from UML classdiagram in here
+function Rental(country, city, type, title, price, guests, imageUrl, rooms, smoking, hasWifi, hasLaundry, hasTV, hasAircon) { //put all attributes from UML classdiagram in here
     this.country = country;
     this.city = city;
     this.type = type;
@@ -107,7 +98,7 @@ allRentals.push(netherlands3);
 // using string literals https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 function generateAndShowRentalHtmlOverview(rental) {
     $("#content").append(`
-    <div class="col-lg-3 item" onclick="rentalClicked('${allRentals.indexOf(rental)}')">               <!--- List of all rentals, indexOf tells what rental you have clicked. .when this div is clicked on, the function rentalClicked is executed with a parameter telling what you have clicked on --->
+    <div class="col-lg-3 item" onclick="rentalClicked('${allRentals.indexOf(rental)}')">               <!--- List of all rentals, indexOf tells what rental you have clicked - The indexOf() method returns the first index at which a given element can be found in the array -. .when this div is clicked on, the function rentalClicked is executed with a parameter telling what you have clicked on --->
     <img src='${rental.imageUrl}' />
         <p class='location'>${rental.type} &bull; ${rental.city}, ${rental.country}</p>
         <p class='title'>${rental.title}</p>
@@ -127,7 +118,7 @@ function generateAndShowRentalHtmlDetailed(rental) {
     <div class="col-lg-6 item">
     <img src='${rental.imageUrl}' />
     </div>                                            
-    <div class="col-lg-6 item">
+    <div class="col-lg-5 item">
         <p class='location'>${rental.type} &bull; ${rental.city}, ${rental.country}</p>
         <p class='title'>${rental.title}</p>
         <p class='price'>${rental.price} GBP per night</p>
@@ -137,41 +128,83 @@ function generateAndShowRentalHtmlDetailed(rental) {
         <p class='laundry'>Laundry? ${rental.hasLaundry}</p>
         <p class='tv'>TV? ${rental.hasTV}</p>
         <p class='aircon'>Aircondition? ${rental.hasAircon}</p>
-        
-        
+    </div>
+    <div>
+        <button type="button" class="btn btn-success" onclick="bookRental('${allRentals.indexOf(rental)}')">Book</button>
     </div>
     `)
 }
 
-function rentalClicked(rentalIndex){
+function rentalClicked(rentalIndex) {
     $("#content").html("");
     var rental = allRentals[rentalIndex];
     generateAndShowRentalHtmlDetailed(rental);
 }
 
+var bookings = loadStoredBookings();
+renderBookings();
+function loadStoredBookings(){
+    var storedBookings = localStorage.getItem("bookings");
+    if(!storedBookings){
+        return [];
+    }
+
+    return JSON.parse(storedBookings);
+}
+
+function bookRental(rentalIndex) {
+    var rental = allRentals[rentalIndex];
+    if (bookings.indexOf(rental) > -1) {
+        return;
+    }
+
+    bookings.push(rental);
+    localStorage.setItem("bookings", JSON.stringify(bookings));
+    renderBookings();
+}
+
+function removeBooking(rentalIndex) {
+    var rental = bookings[rentalIndex];
+    bookings.splice(rentalIndex, 1);
+    localStorage.setItem("bookings", JSON.stringify(bookings));
+    renderBookings();
+}
+
+function renderBookings() {
+    var bookingList = $("#booking-list");
+    bookingList.html("");
+    for (let booking of bookings) {
+        bookingList.append(`<li  class="list-group-item d-flex justify-content-between align-items-center">
+            ${booking.title}
+            <span class="badge badge-primary badge-pill">$${booking.price}</span>
+            <span class="badge badge-danger badge-pill" style="cursor:pointer;" onclick="removeBooking('${bookings.indexOf(booking)}')">Remove</span>
+            </li>`);
+    }
+}
+
 // function for filtering rentals based on country, rental type, price & guests (and showing them afterwards)
-function filterRentals(country, rentalType, price, guests){ 
-    
+function filterRentals(country, rentalType, price, guests) {
+
     // we create a variable to store the filtered items, based on all our rentals
     var filteredRentals = allRentals;
 
     // if the country parameter has been supplied, we filter on it
-    if(country !== undefined && country != "Default"){
+    if (country !== undefined && country != "Default") {
         filteredRentals = filteredRentals.filter(rental => rental.country === country);
     }
 
     // if the rental type parameter has been supplied, we filter on it
-    if(rentalType !== undefined && rentalType != "Default"){
+    if (rentalType !== undefined && rentalType != "Default") {
         filteredRentals = filteredRentals.filter(rental => rental.type === rentalType);
-    } 
+    }
 
     // if the price parameter has been supplied, we filter on it
-    if(price !== undefined && price !== ""){
+    if (price !== undefined && price !== "") {
         filteredRentals = filteredRentals.filter(rental => rental.price <= price);
     }
 
     // if the guests parameter has been supplied, we filter on it
-    if(guests !== undefined && guests !== ""){
+    if (guests !== undefined && guests !== "") {
         filteredRentals = filteredRentals.filter(rental => rental.guests >= guests);
     }
 
@@ -179,29 +212,29 @@ function filterRentals(country, rentalType, price, guests){
     $("#content").html("");
 
     // we render each rental as HTML
-    for(var rental of filteredRentals){
+    for (var rental of filteredRentals) {
         generateAndShowRentalHtmlOverview(rental);
     }
 }
 
 // triggered when a filter is changed
-function filterChanged(){
+function filterChanged() {
 
     // first we get the value from our filters
     var country = $("#destinationDdl").val(); // destinationDdl is the ID of the dropdown element in the HTML
     var rentalType = $("#rentalTypesDdl").val(); // rentalTypeDdl is the ID of the dropdown element in the HTML
     var price = $("#max-price-input").val(); // max-price-input is the ID of the dropdown element in the HTML
     var guests = $("#no_of_guests").val(); // no_of_guests is the ID of the dropdown element in the HTML
-    
+
     // we iniate the filtering, based on the selected destination
     filterRentals(country, rentalType, price, guests);
 }
 
 // document load function is executed when the HTML document has loaded in the browser
-$(document).ready(function(){
+$(document).ready(function () {
 
     // loop through all rentals and show them
-    for(var rental of allRentals){
+    for (var rental of allRentals) {
 
         // call function for generating html and showing it for rental
         generateAndShowRentalHtmlOverview(rental);
