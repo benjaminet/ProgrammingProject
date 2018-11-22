@@ -1,98 +1,21 @@
 /*
 To do:
 
-
 Programming: 
 
 
-Put dates in to the singel rental, not as filter
+Put dates in to the single rental, not as filter
 
-fix the register page
-. 
+fix the register page style
 
-login/register: able to login with registered name? (localstorage?)
 
 IMPLEMENT DATES TO SELECT ON SINGLE RENTAL 
 
-BEING ABLE TO BOOK A RENTAL AND VIEW THE BOOKING. (LocalStorage)
+RAPPORT
+
+(BEING ABLE TO BOOK A RENTAL AND VIEW THE BOOKING. (LocalStorage))
 
 */
-
-// Rental class (with attributes)
-function Rental(country, city, type, title, price, guests, imageUrl, rooms, smoking, hasWifi, hasLaundry, hasTV, hasAircon) { //put all attributes from UML classdiagram in here
-    this.country = country;
-    this.city = city;
-    this.type = type;
-    this.title = title;
-    this.price = price;
-    this.guests = guests;
-    this.imageUrl = imageUrl;
-    this.rooms = rooms;
-    this.smoking = smoking;
-    this.hasWifi = hasWifi;
-    this.hasLaundry = hasLaundry;
-    this.hasTV = hasTV;
-    this.hasAircon = hasAircon;
-    //this.date = date; ???
-}
-
-// object containing all possible countries
-var countries = {
-    France: "France",
-    Australia: "Australia",
-    Dubai: "Dubai",
-    Netherlands: "Netherlands"
-}
-
-// object containing all possible rental types
-var rentalTypes = {
-    Castle: "Castle",
-    Houseboat: "Houseboat",
-    Apartment: "Apartment",
-    Villa: "Villa",
-}
-
-// Harcoded data (rentals):
-// france
-var france1 = new Rental(countries.France, "Carlux", rentalTypes.Castle, "Chateau De Ruffiac", 715, 12, "https://www.oliverstravels.com/uploads/herder_image/crop_9999_1000_Chateau-de-Ruffiac-Dordogne-Fr-Olivers-Travels-1.jpg", 6, "Allowed", "Yes", "No", "Yes", "No");
-var france2 = new Rental(countries.France, "Carlux", rentalTypes.Castle, "Domaine Du Pont", 5500, 20, "https://www.oliverstravels.com/uploads/herder_image/crop_720_440_La-Maison-des-Fleurs-Atlantic-Coast-Olivers-Travels-1.jpg", 11, "Not allowed", "Yes", "Yes", "No", "Yes");
-var france3 = new Rental(countries.France, "Atlantic Coast", rentalTypes.Villa, "La Maison Des Fleurs ", 1300, 8, "https://www.oliverstravels.com/uploads/herder_image/crop_720_440_Chateau-Du-Chevalier-Only-Brittany-Olivers-Travels__1_.jpg", 3, "Allowed", "Yes", "No", "Yes", "Yes");
-
-// Australia
-var australia1 = new Rental(countries.Australia, "Sydney", rentalTypes.Apartment, "Absolute Waterfront", 650, 6, "https://pictures.luxuryretreats.com/122208/Sydney_AbsoluteWaterfront-1.jpg", 3, "Allowed", "Yes", "Yes", "Yes", "Yes");
-var australia2 = new Rental(countries.Australia, "Sydney", rentalTypes.Villa, "Vaucluse Luxury", 750, 10, "https://pictures.luxuryretreats.com/121296/Sydney_VaucluseHopetoun_01.jpg", 4, "Not allowed", "Yes", "No", "Yes", "Yes");
-var australia3 = new Rental(countries.Australia, "Melbourne", rentalTypes.Villa, "Bronte Sands", 425, 6, "https://pictures.luxuryretreats.com/121850/Sydney_BronteSands-1.jpg", 3, "Not allowed", "Yes", "No", "Yes", "Yes");
-
-// Dubai
-var dubai1 = new Rental(countries.Dubai, "Downtown", rentalTypes.Apartment, "Unique Luxury Apartment Downtown", 860, 7, "https://pictures.luxuryretreats.com/120330/Dubai_UniqueLuxuryApartmentDowntown_01.jpg", 3, "Not allowed", "Yes", "Yes", "Yes", "Yes");
-var dubai2 = new Rental(countries.Dubai, "Downtown", rentalTypes.Villa, "Jumeirah Villa", 1000, 10, "https://pictures.luxuryretreats.com/119472/Dubai_Private4BedVilla_01.jpg", 4, "Allowed", "Yes", "Yes", "No", "Yes");
-var dubai3 = new Rental(countries.Dubai, "The Palm Jumeirah", rentalTypes.Villa, "Signature Villa", 920, 11, "https://pictures.luxuryretreats.com/121444/Dubai_SignatureVilla_50.jpg", 6, "Allowed", "Yes", "Yes", "Yes", "Yes");
-
-// Netherlands
-var netherlands1 = new Rental(countries.Netherlands, "Amsterdamn", rentalTypes.Houseboat, "Experience a houseboat in Amsterdam", 370, 5, "https://a0.muscache.com/im/pictures/95957379/b725845f_original.jpg?aki_policy=xx_large", 2, "Allowed", "Yes", "No", "No", "No");
-var netherlands2 = new Rental(countries.Netherlands, "Amsterdam", rentalTypes.Apartment, "Lovely hideout in the middle of AMS", 450, 6, "https://a0.muscache.com/im/pictures/8cbb08e8-257c-45c9-895f-0607a126fe19.jpg?aki_policy=xx_large", 3, "Allowed", "Yes", "No", "Yes", "Yes");
-var netherlands3 = new Rental(countries.Netherlands, "Lijnden", rentalTypes.Villa, "Private Luxurious house gardenview", 550, 8, "https://a0.muscache.com/im/pictures/3d6b10f7-f07b-4d07-88a2-ec748b26c894.jpg?aki_policy=xx_large", 4, "Allowed", "Yes", "Yes", "Yes", "Yes");
-
-// allRentals is a list of all rentals in the system (created above)
-var allRentals = [];
-
-//var listOfNumbers = [12, 15, 23, 99, 15 ];
-
-allRentals.push(france1);
-allRentals.push(france2);
-allRentals.push(france3);
-
-allRentals.push(australia1);
-allRentals.push(australia2);
-allRentals.push(australia3);
-
-allRentals.push(dubai1);
-allRentals.push(dubai2);
-allRentals.push(dubai3);
-
-allRentals.push(netherlands1);
-allRentals.push(netherlands2);
-allRentals.push(netherlands3);
 
 // function for generating overview html from hardcoded rentals
 // using string literals https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
@@ -128,55 +51,54 @@ function generateAndShowRentalHtmlDetailed(rental) {
         <p class='laundry'>Laundry? ${rental.hasLaundry}</p>
         <p class='tv'>TV? ${rental.hasTV}</p>
         <p class='aircon'>Aircondition? ${rental.hasAircon}</p>
+        <p>Start Date</p><input style="width: 30%;" type="date" class="form-control" id="startdate" placeholder="Start Date">
+        <p>End Date</p><input style="width: 30%;" type="date" class="form-control" id="enddate" placeholder="End Date">
     </div>
+    
     <div>
         <button type="button" class="btn btn-success" onclick="bookRental('${allRentals.indexOf(rental)}')">Book</button>
     </div>
     `)
 }
 
+// when a rental is clicked on the frontpage, this function generates and shows the single rental view
 function rentalClicked(rentalIndex) {
     $("#content").html("");
     var rental = allRentals[rentalIndex];
     generateAndShowRentalHtmlDetailed(rental);
 }
 
-var bookings = loadStoredBookings();
-renderBookings();
-function loadStoredBookings(){
-    var storedBookings = localStorage.getItem("bookings");
-    if(!storedBookings){
-        return [];
-    }
-
-    return JSON.parse(storedBookings);
-}
-
+// executed when "book" button is pressed
 function bookRental(rentalIndex) {
     var rental = allRentals[rentalIndex];
     if (bookings.indexOf(rental) > -1) {
         return;
     }
 
-    bookings.push(rental);
+    var startDate = $("#startdate").val();
+    var endDate = $("#enddate").val();
+    var booking = new Booking(rental, startDate, endDate);
+    bookings.push(booking);
     localStorage.setItem("bookings", JSON.stringify(bookings));
     renderBookings();
 }
 
-function removeBooking(rentalIndex) {
-    var rental = bookings[rentalIndex];
-    bookings.splice(rentalIndex, 1);
+// remove booking from local storage and from html list in top right corner
+function removeBooking(bookingIndex) {
+    var rental = bookings[bookingIndex];
+    bookings.splice(bookingIndex, 1);
     localStorage.setItem("bookings", JSON.stringify(bookings));
     renderBookings();
 }
 
+// generates and shows HTML for bookings in top right corner
 function renderBookings() {
     var bookingList = $("#booking-list");
     bookingList.html("");
     for (let booking of bookings) {
         bookingList.append(`<li  class="list-group-item d-flex justify-content-between align-items-center">
-            ${booking.title}
-            <span class="badge badge-primary badge-pill">$${booking.price}</span>
+            ${booking.rental.title} (${booking.startDate} to ${booking.endDate})
+            <span class="badge badge-primary badge-pill">$${booking.rental.price}</span>
             <span class="badge badge-danger badge-pill" style="cursor:pointer;" onclick="removeBooking('${bookings.indexOf(booking)}')">Remove</span>
             </li>`);
     }
