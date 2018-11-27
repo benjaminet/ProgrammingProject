@@ -15,7 +15,7 @@ var rentalTypes = {
 }
 
 // Harcoded data (rentals):
-// france
+// France
 var france1 = new Rental(countries.France, "Carlux", rentalTypes.Castle, "Chateau De Ruffiac", 715, 12, "https://www.oliverstravels.com/uploads/herder_image/crop_9999_1000_Chateau-de-Ruffiac-Dordogne-Fr-Olivers-Travels-1.jpg", 6, "Allowed", "Yes", "No", "Yes", "No");
 var france2 = new Rental(countries.France, "Carlux", rentalTypes.Castle, "Domaine Du Pont", 5500, 20, "https://www.oliverstravels.com/uploads/herder_image/crop_720_440_La-Maison-des-Fleurs-Atlantic-Coast-Olivers-Travels-1.jpg", 11, "Not allowed", "Yes", "Yes", "No", "Yes");
 var france3 = new Rental(countries.France, "Atlantic Coast", rentalTypes.Villa, "La Maison Des Fleurs ", 1300, 8, "https://www.oliverstravels.com/uploads/herder_image/crop_720_440_Chateau-Du-Chevalier-Only-Brittany-Olivers-Travels__1_.jpg", 3, "Allowed", "Yes", "No", "Yes", "Yes");
@@ -38,8 +38,6 @@ var netherlands3 = new Rental(countries.Netherlands, "Lijnden", rentalTypes.Vill
 // allRentals is a list of all rentals in the system (created above)
 var allRentals = [];
 
-//var listOfNumbers = [12, 15, 23, 99, 15 ];
-
 allRentals.push(france1);
 allRentals.push(france2);
 allRentals.push(france3);
@@ -56,8 +54,10 @@ allRentals.push(netherlands1);
 allRentals.push(netherlands2);
 allRentals.push(netherlands3);
 
-var bookings = loadStoredBookings();
-renderBookings();
+
+var bookings = loadStoredBookings();                // loads all bookings from localStorage
+renderBookings();                                   // calls the function generating the booked rentals in the top right corner
+
 function loadStoredBookings(){
     var storedBookings = localStorage.getItem("bookings");
     if(!storedBookings){

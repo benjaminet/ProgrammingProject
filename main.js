@@ -4,12 +4,8 @@ To do:
 Programming: 
 
 
-Put dates in to the single rental, not as filter
-
-fix the register page style
 
 
-IMPLEMENT DATES TO SELECT ON SINGLE RENTAL 
 
 RAPPORT
 
@@ -46,6 +42,7 @@ function generateAndShowRentalHtmlDetailed(rental) {
         <p class='title'>${rental.title}</p>
         <p class='price'>${rental.price} GBP per night</p>
         <p class='guests'>${rental.guests} guests</p>
+        <p class='rooms'>${rental.rooms} rooms</p>
         <p class='smoking'>Smoking? ${rental.smoking}</p>
         <p class='wifi'>Wifi? ${rental.hasWifi}</p>
         <p class='laundry'>Laundry? ${rental.hasLaundry}</p>
@@ -68,20 +65,34 @@ function rentalClicked(rentalIndex) {
     generateAndShowRentalHtmlDetailed(rental);
 }
 
-// executed when "book" button is pressed
-function bookRental(rentalIndex) {
-    var rental = allRentals[rentalIndex];
-    if (bookings.indexOf(rental) > -1) {
-        return;
-    }
 
+// executed when "book" button is pressed --> puts the chosen rental into the html 
+function bookRental(rentalIndex) {
+    var clickedRental = allRentals[rentalIndex];                    // one single index of the whole list of rentals ([rentalIndex]) determines that
     var startDate = $("#startdate").val();
     var endDate = $("#enddate").val();
-    var booking = new Booking(rental, startDate, endDate);
-    bookings.push(booking);
+    var newBooking = new Booking(clickedRental, startDate, endDate);
+
+   // looping through all existing bookings - stops code execution if a matching booking already exists 
+    for(let booking of bookings){
+        if(booking.rental === clickedRental){               // if the booking's rental is equal to the clicked rental, nothing more will happen (returns nothing)
+            return;
+        }
+    }
+    
+    
+    // if the clicked rental hasn't been booked, then: 
+
+    // the local list of bookings 
+    bookings.push(newBooking);
+
+    // this saves all the bookings in localStorage, JSON converts it to a string in a JSON format. 
     localStorage.setItem("bookings", JSON.stringify(bookings));
+
+    // calls the function below
     renderBookings();
 }
+
 
 // remove booking from local storage and from html list in top right corner
 function removeBooking(bookingIndex) {
@@ -95,7 +106,7 @@ function removeBooking(bookingIndex) {
 function renderBookings() {
     var bookingList = $("#booking-list");
     bookingList.html("");
-    for (let booking of bookings) {
+    for (let booking of bookings) {                     // for every booking, it gets appended (tilføjet) in the booking list
         bookingList.append(`<li  class="list-group-item d-flex justify-content-between align-items-center">
             ${booking.rental.title} (${booking.startDate} to ${booking.endDate})
             <span class="badge badge-primary badge-pill">$${booking.rental.price}</span>
@@ -154,7 +165,7 @@ function filterChanged() {
 
 // document load function is executed when the HTML document has loaded in the browser
 $(document).ready(function () {
-
+    
     // loop through all rentals and show them
     for (var rental of allRentals) {
 
