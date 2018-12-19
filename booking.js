@@ -1,4 +1,4 @@
-// becomes a booking object when a booking is created
+// booking class
 function Booking(rental, startDate, endDate){
     this.rental = rental;
     this.startDate = startDate;

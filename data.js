@@ -14,7 +14,7 @@ var rentalTypes = {
     Villa: "Villa",
 }
 
-// Harcoded data (rentals):
+// Harcoded data (rentals) by calling the object constructor "Rental" with the "new" keyword.
 // France
 var france1 = new Rental(countries.France, "Carlux", rentalTypes.Castle, "Chateau De Ruffiac", 715, 12, "https://www.oliverstravels.com/uploads/herder_image/crop_9999_1000_Chateau-de-Ruffiac-Dordogne-Fr-Olivers-Travels-1.jpg", 6, "Allowed", "Yes", "No", "Yes", "No");
 var france2 = new Rental(countries.France, "Carlux", rentalTypes.Castle, "Domaine Du Pont", 5500, 20, "https://www.oliverstravels.com/uploads/herder_image/crop_720_440_La-Maison-des-Fleurs-Atlantic-Coast-Olivers-Travels-1.jpg", 11, "Not allowed", "Yes", "Yes", "No", "Yes");
@@ -37,7 +37,7 @@ var netherlands3 = new Rental(countries.Netherlands, "Lijnden", rentalTypes.Vill
 
 // allRentals is a list of all rentals in the system (created above)
 var allRentals = [];
-
+            // pushing all the rentals defined in to our allRentals list
 allRentals.push(france1);
 allRentals.push(france2);
 allRentals.push(france3);
@@ -54,15 +54,16 @@ allRentals.push(netherlands1);
 allRentals.push(netherlands2);
 allRentals.push(netherlands3);
 
-
+//those 2 lines should be in bottom of main.js (document ready)
 var bookings = loadStoredBookings();                // loads all bookings from localStorage
 renderBookings();                                   // calls the function generating the booked rentals in the top right corner
 
+// gets bookings saved to localStorage when opening the main page
 function loadStoredBookings(){
     var storedBookings = localStorage.getItem("bookings");
-    if(!storedBookings){
-        return [];
+    if(!storedBookings){                        // if there are no stored bookings...
+        return [];                              // ... it returns an empty Array
     }
 
-    return JSON.parse(storedBookings);
+    return JSON.parse(storedBookings);          // transforms JSON text to data
 }
